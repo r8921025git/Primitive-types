@@ -31,11 +31,22 @@ struct Rectangle {
 };
 
 Rectangle IntersectRectangle(const Rectangle& R, const Rectangle& S) {
-
+    
+    Rectangle out;
+    if (IsIntersect(R,S)) {
+        out.x = max(R.x,S.x);
+        out.y = max(R.y,S.y);
+        out
+            out.x = S.x;
+            out.width = R.x+R.width-S.x;
+        }
 }
 
 bool IsIntersect(const Rectangle& R, const Rectangle& S) {
-
+    if (!(R.x+R.width < S.x || S.x+S.width < R.x || R.y+R.height < S.y || S.y+S.height < R.y))
+        return true;
+    else
+        return false;
 }
 // @exclude
 
