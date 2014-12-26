@@ -36,10 +36,10 @@ Rectangle IntersectRectangle(const Rectangle& R, const Rectangle& S) {
     if (IsIntersect(R,S)) {
         out.x = max(R.x,S.x);
         out.y = max(R.y,S.y);
-        out
-            out.x = S.x;
-            out.width = R.x+R.width-S.x;
-        }
+        out.width = min(R.x+R.width, S.x+S.width)-out.x;
+        out.height = min(R.y+R.height, S.y+S.height)-out.y;
+    }
+    return out;
 }
 
 bool IsIntersect(const Rectangle& R, const Rectangle& S) {
@@ -51,24 +51,24 @@ bool IsIntersect(const Rectangle& R, const Rectangle& S) {
 // @exclude
 
 int main(int argc, char* argv[]) {
-  for (int times = 0; times < 5; ++times) {
+  for (int times = 0; times < 1; ++times) {
     Rectangle R, S;
-    if (argc == 9) {
-      R.x = atoi(argv[1]), R.y = atoi(argv[2]), R.width = atoi(argv[3]),
-      R.height = atoi(argv[4]);
-      S.x = atoi(argv[5]), S.y = atoi(argv[6]), S.width = atoi(argv[7]),
-      S.height = atoi(argv[8]);
-    } else {
+
       default_random_engine gen((random_device())());
       uniform_int_distribution<int> dis(1, 100);
       R.x = dis(gen), R.y = dis(gen), R.width = dis(gen), R.height = dis(gen);
       S.x = dis(gen), S.y = dis(gen), S.width = dis(gen), S.height = dis(gen);
-    }
+    R.print("Rectangle R: ");
+    S.print("Rectangle S: ");
+    
     // Intersect rectangle.
     bool res = IsIntersect(R, S);
     cout << boolalpha << IsIntersect(R, S) << endl;
     Rectangle ans = IntersectRectangle(R, S);
-    ans.print("ans: ");
+    if (res)    
+        ans.print("ans: ");
+    else
+        cout<<"do not intersect"<<endl;
     assert(res == false || (ans.width >= 0 && ans.height >= 0));
   }
   return 0;
